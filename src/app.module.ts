@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
 import { Profile } from './profile/entity/profile.entity';
+import { PostModule } from './post/post.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { Profile } from './profile/entity/profile.entity';
       inject: [ConfigService],
     }),
     UserModule,
+    PostModule,
   ],
   controllers: [AppController],
   providers: [AppService],
