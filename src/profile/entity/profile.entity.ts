@@ -22,6 +22,6 @@ export class Profile {
   avatar: string;
 
   @OneToOne(() => User, (user) => user.profile)
-  @JoinColumn() // ⭐ Important!
+  @JoinColumn()
   user: User;
 }
