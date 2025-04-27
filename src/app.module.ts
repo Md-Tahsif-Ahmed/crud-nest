@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
 import { Profile } from './profile/entity/profile.entity';
 import { PostModule } from './post/post.module';
+import { Post } from './post/entities/post.entity'; // Import the Post entity
 
 @Module({
   imports: [
@@ -20,8 +21,8 @@ import { PostModule } from './post/post.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
-        entities: [User, Profile],
-        synchronize: true, //use synchronize false for production
+        entities: [User, Profile, Post],
+        synchronize: true,
       }),
       inject: [ConfigService],
     }),
