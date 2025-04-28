@@ -10,6 +10,7 @@ import { PostModule } from './post/post.module';
 import { Post } from './post/entities/post.entity';
 import { CategoryModule } from './category/category.module';
 import { Category } from './category/entities/category.entity';
+import { PostCategory } from './category/entities/post-category.entity';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { Category } from './category/entities/category.entity';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
-        entities: [User, Profile, Post, Category],
+        entities: [User, Profile, Post, Category, PostCategory],
         synchronize: true,
       }),
       inject: [ConfigService],
