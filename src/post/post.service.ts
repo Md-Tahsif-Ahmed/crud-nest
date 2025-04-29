@@ -21,33 +21,28 @@ export class PostService {
 
   async createPost(createPostDto: CreatePostDto): Promise<Post> {
     const { title, content, categories } = createPostDto;
+
     const savedPost = await this.postRepository.manager.transaction(
       async (manager) => {
         const post = this.postRepository.create({ title, content });
         const savedPost = await manager.save(post);
-        const postCategories = await Promise.all(
-          categories.map(async (categoryItem) => {
-            const category = await this.categoryRepository.findOne({
-              where: { id: categoryItem.categoryId },
-            });
-            if (category) {
-              const postCategory = new PostCategory();
-              postCategory.post = savedPost;
-              postCategory.category = category;
-              postCategory.note = categoryItem.note;
-              return postCategory;
-            }
-            return null;
-          }),
-        );
 
-        const validPostCategories = postCategories.filter((pc) => pc !== null);
-        if (validPostCategories.length > 0) {
-          await manager.save(PostCategory, validPostCategories);
+        const postCategories = categories.map((categoryItem) => {
+          const postCategory = new PostCategory();
+          postCategory.post = savedPost;
+          postCategory.category = { id: categoryItem.categoryId } as Category;
+          postCategory.note = categoryItem.note;
+          return postCategory;
+        });
+
+        if (postCategories.length > 0) {
+          await manager.save(PostCategory, postCategories);
         }
+
         return savedPost;
       },
     );
+
     return savedPost;
   }
 
